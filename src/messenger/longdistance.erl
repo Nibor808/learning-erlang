@@ -13,7 +13,7 @@
 -export([alice/0, bob/2, startAlice/0, startBob/1]).
 
 alice() ->
-%% receive a message and pattern match on it
+%% receive a message and pattern match on it to get the return Node
   receive
     {message, BobNode} ->
       io:fwrite("Alice got a message\n"),
@@ -30,7 +30,7 @@ bob(0, AliceNode) ->
   io:fwrite("Bob is finished\n");
 
 bob(N, AliceNode) ->
-%%  send a message to the PId alias "alice" using the "!" operator
+%%  send a message to the the "AliceNode" machine
   {alice, AliceNode} ! {message, self()},
   receive
     message ->
