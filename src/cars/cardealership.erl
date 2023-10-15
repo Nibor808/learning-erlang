@@ -28,9 +28,10 @@ convert(Currency, Price) ->
 end.
 
 getConvertedPricesForCar(Car) ->
-  Price = getPriceForCar(Car),
-  erlang:display(Price),
-  lists:map(fun(X) -> convert(X, Price) end, ?CURRENCIES).
+  case getPriceForCar(Car) of
+      {error, no_car_found} -> {error, "Cannot find " ++ Car};
+      Price ->  lists:map(fun(X) -> convert(X, Price) end, ?CURRENCIES)
+  end.
 
 
 
