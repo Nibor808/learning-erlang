@@ -13,7 +13,7 @@
 -import(data, [getPriceForCar/1]).
 
 %% API
--export([getConvertedPricesForCar/1]).
+-export([getPricesForCar/1]).
 -define(CURRENCIES, [eur, gbp]).
 
 formatPrice(Price) ->
@@ -27,7 +27,7 @@ convert(Currency, Price) ->
     _ -> Price
 end.
 
-getConvertedPricesForCar(Car) ->
+getPricesForCar(Car) ->
   case getPriceForCar(Car) of
       {error, no_car_found} -> {error, "Cannot find " ++ Car};
       Price ->  lists:map(fun(X) -> convert(X, Price) end, ?CURRENCIES)
