@@ -10,7 +10,7 @@
 -author("robin").
 
 %% API
--export([getAllData/0, getPriceForCar/1, getCar/1]).
+-export([getAllData/0, getPriceForCar/1, getCar/1, getCars/0, getPrices/0]).
 -define(PRICES, #{"BMW i8" => 15000, "Lamborghini Huracan" => 500000, "Ferrari f12" => 700000}).
 -define(CARS, ["BMW i8", "Lamborghini Huracan", "Ferrari f12"]).
 
@@ -19,6 +19,10 @@ getAllData() ->
 
 getCar(Car) ->
   lists:filter(fun(X) -> X == Car end,  ?CARS).
+
+getCars() -> ?CARS.
+
+getPrices() -> ?PRICES.
 
 getPriceForCar(Car) ->
   case getCar(Car) of

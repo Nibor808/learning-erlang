@@ -13,7 +13,7 @@
 -import(data, [getPriceForCar/1]).
 
 %% API
--export([getPricesForCar/1]).
+-export([listPrices/1, getPricesForCar/1]).
 -define(CURRENCIES, [eur, gbp]).
 
 formatPrice(Price) ->
@@ -22,16 +22,30 @@ formatPrice(Price) ->
 
 convert(Currency, Price) ->
   case Currency of
-    eur -> {Currency, formatPrice(round(Price * 0.9))};
-    gbp -> {Currency, formatPrice(round(Price * 0.75))};
-    _ -> Price
+    eur -> formatPrice(round(Price * 0.9));
+    gbp -> formatPrice(round(Price * 0.75));
+    _ -> formatPrice(Price)
 end.
 
 getPricesForCar(Car) ->
   case getPriceForCar(Car) of
       {error, no_car_found} -> {error, "Cannot find " ++ Car};
-      Price ->  lists:map(fun(X) -> convert(X, Price) end, ?CURRENCIES)
+      Price ->  lists:map(fun(X) -> {X, convert(X, Price)} end, ?CURRENCIES)
   end.
+
+listPrices(Currency) ->
+  CarList = data:getCars(),
+  printPrice(CarList, Currency).
+
+printPrice([], _Currency) ->
+  true;
+printPrice([Car | Rest], Currency) ->
+  PriceMap = data:getPrices(),
+  Price = maps:get(Car, PriceMap),
+  ConvertedPrice = convert(Currency, Price),
+  io:fwrite("THe price for " ++ Car ++ " is " ++ ConvertedPrice ++ "\n"),
+  printPrice(Rest, Currency).
+
 
 
 
