@@ -23,7 +23,7 @@ formatPrice(Price) ->
 convert(Currency, Price) ->
   case Currency of
     eur -> {Currency, formatPrice(round(Price * 0.9))};
-    gbp -> {Currency, formatPrice(round(Price * 1.2))};
+    gbp -> {Currency, formatPrice(round(Price * 0.75))};
     _ -> Price
 end.
 
