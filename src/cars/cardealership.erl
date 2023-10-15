@@ -19,7 +19,6 @@
 formatPrice(Price) ->
   "$" ++ integer_to_list(Price).
 
-
 convert(Currency, Price) ->
   case Currency of
     eur -> formatPrice(round(Price * 0.9));
